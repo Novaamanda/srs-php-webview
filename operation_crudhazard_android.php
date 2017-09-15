@@ -54,9 +54,7 @@ if ($_POST['submit'] == 'SUBMIT') // 1. if 1 --> Jika klik submit
 												}
 											 ?>
 											 
-											 <script>
-											 window.location='message_sukses_hazard.php';
-											</script>	
+											 	
 											
 											<?php
 										} 
@@ -65,7 +63,7 @@ if ($_POST['submit'] == 'SUBMIT') // 1. if 1 --> Jika klik submit
 										{
 											?>
 											<script>
-											 window.location='crud_hazard.php?des=$_POST[deskripsi]';
+											 //window.location='crud_hazard.php?des=$_POST[deskripsi]';
 											</script>	
 											<?php
 										}
@@ -77,7 +75,7 @@ if ($_POST['submit'] == 'SUBMIT') // 1. if 1 --> Jika klik submit
 	 {
 		?>
 		<script>
-		window.location='crud_hazard.php?des=$_POST[deskripsi]';
+		//window.location='crud_hazard.php?des=$_POST[deskripsi]';
 		</script>	
 		<?php
 	}		

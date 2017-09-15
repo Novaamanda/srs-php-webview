@@ -407,6 +407,28 @@ function showPosition(position) {
     
   </section>
 <?php include "metabottom.php"; ?>
+
+<script type="text/javascript">
+      function kirimEvent(toast) {
+		  var deskripsi = document.getElementById("deskripsi").value;
+		  var id_jeniskejadian = document.getElementByName("id_jeniskejadian").value;
+		  var ygterlibat = document.getElementByName("ygterlibat").value;
+		  var id_optional_yg_terlibatkan = document.getElementByName("id_optional_yg_terlibatkan").value;
+		  var image = document.getElementByName("image").value;
+		  var image1 = document.getElementByName("image1").value;
+		  var cookiesevent = document.getElementByName("cookiesevent").value;
+		  var id_user = document.getElementByName("id_user").value;
+		  var kode_bandara = document.getElementByName("kode_bandara").value;
+		  var today = new Date();
+		  var bulan = today.getMonth()+1;
+		  var tahun = today.getFullYear();
+		  var jam = getHours();
+		  var menit = getMinutes();
+		  var detik = getSeconds();
+		  var waktu = tahun + "-" + bulan + "-" + today + " " + jam + ":" + menit + ":" + detik; 		  
+          Android.kirimDataHazard(cookieshazard, id_user, typehazard, penyebabhazard, deskripsi, kode_bandara, image, image1, lat, long, waktu);
+      }
+    </script>
 </body>
 </html>
 <?php

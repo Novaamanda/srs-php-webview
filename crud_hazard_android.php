@@ -111,7 +111,7 @@ else
 
 ?>
 
-<form method="post" action="operation_crudhazard.php" enctype="multipart/form-data" autocomplete="off" onSubmit="showLoading();"> 
+<form method="post" action="operation_crudhazard_android.php" enctype="multipart/form-data" autocomplete="off" onSubmit="showLoading();"> 
 <input name="cookieshazard" type="hidden" value="<?php echo $cookie ;?>">
 <input name="id_user" type="hidden" value="<?php echo $id_user ;?>">
 <div> 
@@ -271,7 +271,7 @@ function showPosition(position) {
 
 
 <div class="separator-fields"></div>
-<input class="w-button action-button" name="submit" type="submit" value="SUBMIT"  data-wait="Please wait..."> 
+<input class="w-button action-button" name="submit" type="button" value="SUBMIT" onClick="kirimHazard()" data-wait="Please wait..."> 
 <div class="separator-button"></div>
 </form>
  </div>
