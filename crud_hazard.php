@@ -26,6 +26,7 @@ else {
 </head>
 
 <body onload="getLocation()"> 
+
 <script type="text/javascript">
   function showLoading() {
     document.getElementById('loadingmsg').style.display = 'block';
@@ -33,29 +34,10 @@ else {
 }
 
 var lat;
-var long;
+var longitude;
 </script>
 
-<script type="text/javascript">
-      function kirimHazard() {
-		  var deskripsi = document.getElementById("deskripsi").value;
-		  var typehazard = document.getElementsByName("typehazard").value;
-		  var penyebabhazard = document.getElementsByName("penyebabhazard").value;
-		  var image = document.getElementsByName("image").value;
-		  var image1 = document.getElementsByName("image1").value;
-		  var cookieshazard = document.getElementsByName("cookieshazard").value;
-		  var id_user = document.getElementsByName("id_user").value;
-		  var kode_bandara = document.getElementsByName("kode_bandara").value;
-		  var today = new Date();
-		  var bulan = today.getMonth()+1;
-		  var tahun = today.getFullYear();
-		  var jam = today.getHours();
-		  var menit = today.getMinutes();
-		  var detik = today.getSeconds();
-		  var waktu = tahun + "-" + bulan + "-" + today + " " + jam + ":" + menit + ":" + detik; 		  
-          Android.kirimDataHazard(cookieshazard, id_user, typehazard, penyebabhazard, deskripsi, kode_bandara, image, image1, lat, long, waktu);
-      }
-    </script>
+
 <style type="text/css">
       #loadingmsg {
       color: black;
@@ -81,10 +63,13 @@ var long;
       opacity: 0.8;
     }
 </style>
+
 <div id='loadingmsg' style='display: none;' align="center">
 Mengirim Data, Mohon Tunggu...
 </div>
+
 <div id='loadingover' style='display: none;'></div>
+
 <section class="w-section mobile-wrapper">
      
         <div class="home-content">
@@ -108,61 +93,59 @@ else
 {
    $error="";
 }
-
 ?>
 
 <form method="post" action="operation_crudhazard.php" enctype="multipart/form-data" autocomplete="off" onSubmit="showLoading();"> 
-<input name="cookieshazard" type="hidden" value="<?php echo $cookie ;?>">
-<input name="id_user" type="hidden" value="<?php echo $id_user ;?>">
-<div> 
-<table width="100%" border="0" bgcolor="#F6F6F6">
-  <tr>
-    <td><font color="#003366">TIPE HAZARD</font></td>
-  </tr>
-</table>
-<div class="separator-fields"></div>
-<?php
- $hasil_db = mysql_query("SELECT * FROM tipe_hazard");
+	<input name="cookieshazard" id="cookies" type="text" value="<?php echo $cookie ;?>">
+	<input name="id_user" id="iduser" type="text" value="<?php echo $id_user ;?>">
 
- while ($data = mysql_fetch_array($hasil_db))
- {
-	 
- ?>
-        <input type="checkbox" name="typehazard[]" value="<?php echo $data['id_tipehazard']; ?>" id="<?php echo $data['nama_tipehazard']; ?>"> <?php echo $data['nama_tipehazard']; ?> <div class="separator-fields"></div>
-<?php
+	<div> 
+		<table width="100%" border="0" bgcolor="#F6F6F6">
+			<tr>
+				<td><font color="#003366">TIPE HAZARD</font></td>
+			</tr>
+		</table>
+	<div class="separator-fields"></div>
+		<?php
+		$hasil_db = mysql_query("SELECT * FROM tipe_hazard");
+			while ($data = mysql_fetch_array($hasil_db)){
+		?>
+		<input type="checkbox" name="typehazard[]" value="<?php echo $data['id_tipehazard']; ?>" id="<?php echo $data['nama_tipehazard']; ?>"> <?php echo $data['nama_tipehazard']; ?> <div class="separator-fields"></div>
+		<?php
 		}
-?>
-<div class="separator-fields"></div>
-</div>
-<div> 
-<table width="100%" border="0" bgcolor="#F6F6F6">
-  <tr>
-    <td><font color="#003366">PENYEBAB HAZARD</font></td>
-  </tr>
-</table> 
-<div class="separator-fields"></div>
-<?php include 'koneksi.php';
- $hasil_db = mysql_query("SELECT * FROM penyebab_hazard");
+		?>
+		<div class="separator-fields"></div>
+	</div>
+		
+	<div>
+		<table width="100%" border="0" bgcolor="#F6F6F6">
+			<tr>
+				<td><font color="#003366">PENYEBAB HAZARD</font></td>
+			</tr>
+		</table> 
+		<div class="separator-fields"></div>
+		<?php include 'koneksi.php';
+		$hasil_db = mysql_query("SELECT * FROM penyebab_hazard");
+		while ($data = mysql_fetch_array($hasil_db)){
+			?>
+			<input type="checkbox" name="penyebabhazard[]" value="<?php echo $data['id_penyebabhazard']; ?>" id="<?php echo $data['nama_penyebabhazard']; ?>"> <?php echo $data['nama_penyebabhazard']; ?> <div class="separator-fields"></div>
+			<?php
+			}
+			?>
+		<div class="separator-fields"></div>
+	</div>
+			
+	<div>
+		<table width="100%" border="0" bgcolor="#F6F6F6">
+			<tr>
+				<td><font color="#003366">DESKRIPSI</font></td>
+			</tr>
+		</table>
+			<textarea cols="40" rows="2" class="w-input input-form" name="deskripsi" placeholder="Harap Diisi" id="deskripsi" required><?php echo "$error"; ?></textarea>
+			<input type="text" name="kode_bandara" id="kodebandara" value="<?php echo $_SESSION[kode_bandara]; ?>">
+		<div class="separator-fields"></div>
+	</div>
 
- while ($data = mysql_fetch_array($hasil_db))
- {
- ?>
-        <input type="checkbox" name="penyebabhazard[]" value="<?php echo $data['id_penyebabhazard']; ?>" id="<?php echo $data['nama_penyebabhazard']; ?>"> <?php echo $data['nama_penyebabhazard']; ?> <div class="separator-fields"></div>
-<?php
-		}
-?>
-<div class="separator-fields"></div>
-</div>
-<div> 
-<table width="100%" border="0" bgcolor="#F6F6F6">
-  <tr>
-    <td><font color="#003366">DESKRIPSI</font></td>
-  </tr>
-</table>
-<textarea cols="40" rows="2" class="w-input input-form" name="deskripsi" placeholder="Harap Diisi" id="deskripsi" required><?php echo "$error"; ?></textarea>
-<input type="hidden" name="kode_bandara" value="<?php echo $_SESSION[kode_bandara]; ?>">
-<div class="separator-fields"></div>
-</div>
 <style>
 .fileContainer {
     overflow: hidden;
@@ -197,8 +180,8 @@ else
 }
 </style>
 
-<label class="label-form" for="full-name-field">Ambil Gambar Hazard ( Take a Photo )</label>
-<div class="separator-fields"></div> 
+	<label class="label-form" for="full-name-field">Ambil Gambar Hazard ( Take a Photo )</label>
+	<div class="separator-fields"></div> 
 <center>
 <label class="fileContainer">
 Take a Photo 1
@@ -262,7 +245,7 @@ function showPosition(position) {
     x.innerHTML = "<input type='hidden' name='latitude' value=" + position.coords.latitude + 
     "><br><input type='hidden' name='longitude' value= " + position.coords.longitude + ">";
 	lat = position.coords.latitude;
-	long = position.coords.longitude;
+	longitude = position.coords.longitude;
 }
 
 
@@ -271,7 +254,7 @@ function showPosition(position) {
 
 
 <div class="separator-fields"></div>
-<input class="w-button action-button" name="submit" type="submit" value="SUBMIT"  data-wait="Please wait..."> 
+<input class="w-button action-button" name="submit" type="button" value="SUBMIT"   onClick="kirimHazard()" data-wait="Please wait..."> 
 <div class="separator-button"></div>
 </form>
  </div>
@@ -281,7 +264,48 @@ function showPosition(position) {
     
   </section>
 <?php include "metabottom.php"; ?>
-	
+
+<script type="text/javascript">
+      function kirimHazard() {
+		  var deskripsi = document.getElementById("deskripsi").value;
+		  var image = document.getElementsByName("image").value;
+		  var image1 = document.getElementsByName("image1").value;
+		  var cookieshazard = document.getElementById("cookies").value;
+		  var id_user = document.getElementById("iduser").value;
+		  var kode_bandara = document.getElementById("kodebandara").value;
+		  var today = new Date();
+		  var bulan = today.getMonth()+1;
+		  var tahun = today.getFullYear();
+		  var jam = today.getHours();
+		  var menit = today.getMinutes();
+		  var detik = today.getSeconds();
+		  var waktu = tahun + "-" + bulan + "-" + today + " " + jam + ":" + menit + ":" + detik; 		  
+		  
+		  //Start Checkbox typehazard
+		  var tmpArrType = [];
+		  $('input[name="typehazard[]"]:checked').each(function(){ tmpArrType.push(this.value);}
+		  );
+		  var objKirimType = {};
+		  objKirimType.typehazard = tmpArrType;
+		  var jsonType = JSON.stringify(objKirimType);
+		  //console.log(jsonType);
+		  //console.log(objKirimType);
+		  //End Checkbox typehazard
+		  
+		  //Start Checkbox penyebabhazard
+		  var tmpArrPenyebab = [];
+		  $('input[name="penyebabhazard[]"]:checked').each(function(){ tmpArrPenyebab.push(this.value);}
+		  );
+		  var objKirimPenyebab = {};
+		  objKirimPenyebab.penyebabhazard = tmpArrPenyebab;
+		  var jsonPenyebab = JSON.stringify(objKirimPenyebab);
+		  //End Checkbox penyebabhazard
+		  
+		  
+          Android.kirimDataHazard(cookieshazard, id_user, jsonType, jsonPenyebab, deskripsi, kode_bandara, image, image1, lat, longitude, waktu);
+      }
+    </script>
+
 </body>
 </html>
 <?php

@@ -196,6 +196,7 @@ $i = 1;
  while ($data = mysql_fetch_array($hasil_db))
  {
  ?> 
+ 
 <div class="separator-fields"></div>
 <div class="select-wrapper">
 <input type="checkbox" name="ygterlibat<?php echo"$i"; ?>" id="<?php echo $data['nama_ygterlibat']; ?>" value="<?php echo $data['id_ygterlibat']; ?>"> <?php echo $data['nama_ygterlibat']; ?>
@@ -217,11 +218,13 @@ $hasil_dbw = mysql_query("SELECT * FROM optional_yg_terlibat where id_jenis_ygte
 
 <span class="select-icon entypo-arrow-combo"></span>
 </div>
+
 <script>
 $('[type="checkbox"][name^="ygterlibat"]').change(function(){
   $(this).nextAll('select').first().toggle(this.checked);
 });
 </script>	
+
 <?php
 $i++;
 }

@@ -1,7 +1,7 @@
 <?php
 ini_set("memory_limit","256M");
 // Turn off all error reporting
-error_reporting(0);
+//error_reporting(0);
 include "koneksi.php";
 $foto_videox = $_FILES['image']['name'];
 $foto_videox1 = $_FILES['image1']['name'];
@@ -19,70 +19,44 @@ $lat= $_POST['latitude'];
 $long= $_POST['longitude'];
 $banyak_penyebabhazard	= count($penyebabhazard);
 	
-if ($_POST['submit'] == 'SUBMIT') // 1. if 1 --> Jika klik submit
-{
-	if($foto_videox && $foto_videox1) // 2. if 2 --> Jika Ada Photo 2 Foto
-	{
-		include "image1_image2.php";
-	}
-	else if($foto_videox) //3. if 3 --> Jika hanya ada foto 1
-	{
-		include "image1.php";
-	}
-	else if($foto_videox1)
-	{
-		include "image2.php";
-	}
+	//$tmp = $typehazard['typehazard'];
+	$tes = json_decode($typehazard);
+	$tes2 = json_decode($penyebabhazard);
+	//$tes = json_decode($tmp);
+	//$tes2 = json_decode($tmp2);
 	
-	// end if 2
-		else if(!$foto_videox && !$foto_videox1)
+	
+	
+	//$string1 = '{"typehazard":["1","4"]}';
+	//$tmpObk = json_decode($string1);
+	//$tmpA = new stdClass();
+	//$tmpA->typehazard = $tes->typehazard;
+	//echo $tmpA->typehazard[0];
+	
+	
+	$query = "insert into hazard_report values('$cookihazard','$id_user','$_POST[deskripsi]','','',now(),'$lat','$long','$kode_bandara')";			
+	
+	
+	$sql = mysql_query($query);
+	if($sql) 
+	{
+		for($i=0; $i<$banyak_typehazard; $i++)
 		{
-			$query = "insert into hazard_report values('$cookihazard','$id_user','$_POST[deskripsi]','','',now(),'$lat','$long','$kode_bandara')";
-						
-								$sql = mysql_query($query);
-										if($sql) 
-										{
-										
-												for($i=0; $i<$banyak_typehazard; $i++)
-												 {
-													mysql_query("insert into tabel_tipehazard values('$cookihazard','$typehazard[$i]')");
-												}
-			 
-													 for($k=0; $k<$banyak_penyebabhazard; $k++)
-												{
-													mysql_query("insert into tabel_penyebabhazard values('$cookihazard','$penyebabhazard[$k]')");
-												}
-											 ?>
-											 
-											 <script>
-											 window.location='message_sukses_hazard.php';
-											</script>	
-											
-											<?php
-										} 
-										
-										else 
-										{
-											?>
-											<script>
-											 window.location='crud_hazard.php?des=$_POST[deskripsi]';
-											</script>	
-											<?php
-										}
+			mysql_query("insert into tabel_tipehazard values('$cookihazard','$tes->typehazard[$i]')");
 		}
-	
-}
-// else if 1
-	else
-	 {
-		?>
-		<script>
-		window.location='crud_hazard.php?des=$_POST[deskripsi]';
-		</script>	
-		<?php
-	}		
-	
-	$obj->pesan = "";
-	echo json_encode($obj);
+
+		for($k=0; $k<$banyak_penyebabhazard; $k++)
+		{
+			mysql_query("insert into tabel_penyebabhazard values('$cookihazard','$tes2->penyebabhazard[$k]')");
+		}
+
+		$obj->pesan = "ok " . $tes->typehazard[0];
+		$obj->pesan2 = "ok " . $tes;
+		$obj->pesan3 = "ok " . $typehazard;
+		echo json_encode($obj);	
+	}else{
+		$obj->pesan = "no";
+		echo json_encode($obj);
+	}
 ?>		 
 
